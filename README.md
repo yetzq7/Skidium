@@ -18,3 +18,6 @@ commit soon
 - [ ] **Fix some LTMS**
 - [ ] **Tournament stuff**
 - [ ] **Lategame Loadouts**
+
+## Future Plans:
+- [ ] Henchmen spawning :d
