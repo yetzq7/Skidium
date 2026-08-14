@@ -1,5 +1,5 @@
-# Skidium-Ultimate
-my fork of erbium for skids
+# Skidium Ultimate
+my fork of erbium for skiddin
 
 commit soon
 
@@ -15,5 +15,6 @@ commit soon
 
 ## To do:
 
-- [ ] **Fix LTMS**
+- [ ] **Fix some LTMS**
 - [ ] **Tournament stuff**
+- [ ] **Lategame Loadouts**
