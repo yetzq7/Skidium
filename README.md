@@ -20,4 +20,4 @@ commit soon
 - [ ] **Lategame Loadouts**
 
 ## Future Plans:
-- [ ] Henchmen spawning :d
+- [ ] **Henchmen spawning :d**
