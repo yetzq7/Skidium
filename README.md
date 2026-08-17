@@ -1,7 +1,7 @@
 # Skidium Ultimate
 my fork of erbium for skiddin
 
-commit soon
+
 
 ## Features I have added
 
@@ -12,12 +12,16 @@ commit soon
 - [X] **Vbucks on kills/wins (make it match ur backends api)**
 - [X] **Reviving for Duos/Trios/Squads (wip all though it works)**
 
+## Vibecoded/Experimental Features
+- [ ] Player AIs
+
 
 ## To do:
 
-- [ ] **Fix some LTMS**
+- [ ] **Fix LTMS**
+- [ ] **Fix Events**
+- [ ] **Fix reviving breaking after 2 revives**
 - [ ] **Tournament stuff**
 - [ ] **Lategame Loadouts**
-
-## Future Plans:
-- [ ] **Henchmen spawning :d**
+- [ ] Give pawns a brain
+- [X] **Custom Creative Plot opening**
