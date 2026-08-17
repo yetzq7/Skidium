@@ -4,6 +4,7 @@ my fork of erbium for skiddin
 ## Features
 
 - [X] **API for [Phoenix Matchmaker](https://github.com/Cynnnxxx/Phoenix-Matchmaker), [Astrid](https://github.com/yetzq7/Astrid) or similar**
+- [X] **Reviving** - removed until fixed
 
 **Posts to the endpoint of your choice (for your matchmaker) when erbium is ready**
 
