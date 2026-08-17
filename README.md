@@ -1,19 +1,16 @@
-# Skidium Ultimate
+# Skidium
 my fork of erbium for skiddin
 
-
-
-## Features I have added
+## Features
 
 - [X] **API for [Phoenix Matchmaker](https://github.com/Cynnnxxx/Phoenix-Matchmaker), [Astrid](https://github.com/yetzq7/Astrid) or similar**
 
 **Posts to the endpoint of your choice (for your matchmaker) when erbium is ready**
 
-- [X] **Vbucks on kills/wins (make it match ur backends api)**
-- [X] **Reviving for Duos/Trios/Squads (wip all though it works)**
+## Gaycoded/Experimental Features
+- [ ] Pawn/Bot spawning
+![Image67](https://i.ibb.co/pvN0t1dQ/image.png)
 
-## Vibecoded/Experimental Features
-- [ ] Player AIs
 
 
 ## To do:
@@ -23,5 +20,5 @@ my fork of erbium for skiddin
 - [ ] **Fix reviving breaking after 2 revives**
 - [ ] **Tournament stuff**
 - [ ] **Lategame Loadouts**
-- [ ] Give pawns a brain
+- [ ] **Give pawns a brain**
 - [X] **Custom Creative Plot opening**
