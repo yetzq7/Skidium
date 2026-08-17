@@ -9,11 +9,12 @@ my fork of erbium for skiddin
 
 ## Gaycoded/Experimental Features
 - [ ] Pawn/Bot spawning
+
 ![Image67](https://i.ibb.co/pvN0t1dQ/image.png)
 
 
 
-## To do:
+## To do / Ideas:
 
 - [ ] **Fix LTMS**
 - [ ] **Fix Events**
