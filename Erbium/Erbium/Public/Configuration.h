@@ -11,10 +11,10 @@ struct FConfiguration
     static inline auto ManualPlaylist = false;
 
     // only one can be on
-    static inline auto bDefaultSolo = false;
+    static inline auto bDefaultSolo = true;
     static inline auto bDefaultDuo = false;
     static inline auto bDefaultSquad = false;
-    static inline auto bArenaSolo = true;
+    static inline auto bArenaSolo = false;
     static inline auto bArenaDuo = false;
     static inline auto bArenaTrio = false;
     static inline auto bTournamentSolo = false;
@@ -37,7 +37,7 @@ struct FConfiguration
 
 
     // gaycoded / they have no brain & cosmetics
-    static inline auto bEnablePawnSpawns = true;
+    static inline auto bEnablePawnSpawns = false;
     static inline auto PawnAmount = 10; // amount of pawns or "bots" to spawn
     static inline auto PawnName = "projectboss"; // will be switched to a list if i ever give them a brain
 
