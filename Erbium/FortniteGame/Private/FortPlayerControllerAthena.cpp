@@ -14,9 +14,17 @@
 #include "../Public/FortPhysicsPawn.h"
 #include "../Public/FortWeapon.h"
 #include "../Public/FortVehicleSeatWeaponComponent.h"
-//#include "Spawns.cpp"
-// Forward declaration for bot spawning
+#include "../../libcurl/curl.h"
+#include <thread>
+#include <string>
+
+
+
 void SpawnBots(AFortPlayerControllerAthena* CallerController, int32 Count, const TArray<FVector>& SpawnLocations = TArray<FVector>());
+void UpdateBotMovement();
+//postloadhook
+// Forward declaration for bot spawning
+//void SpawnBots(AFortPlayerControllerAthena* CallerController, int32 Count, const TArray<FVector>& SpawnLocations = TArray<FVector>());
 
 void AFortPlayerControllerAthena::GetPlayerViewPoint(AFortPlayerControllerAthena* PlayerController, FVector& Loc, FRotator& Rot)
 {
@@ -237,7 +245,6 @@ void AFortPlayerControllerAthena::ServerAcknowledgePossession(UObject* Context, 
         PlayerController->WorldInventory->GiveItem(HealSlot2.Item, HealSlot2.Count, HealSlot2ClipSize);
     }
 
-
     if (FConfiguration::bEnablePawnSpawns)
     {
         static bool bBotsSpawned = false;
@@ -245,11 +252,10 @@ void AFortPlayerControllerAthena::ServerAcknowledgePossession(UObject* Context, 
         {
             bBotsSpawned = true;
             SpawnBots(PlayerController, FConfiguration::PawnAmount);
-            printf("Shitty Pawns Spawned!");
-            printf("Amount:", FConfiguration::PawnAmount);
+            printf("Shitty Pawns Spawned!\n");
+            printf("Amount: %d\n", FConfiguration::PawnAmount);
         }
     }
-
 }
 
 uint32 ServerAttemptAircraftJumpVft;
@@ -3554,8 +3560,36 @@ void AFortPlayerControllerAthena::ServerPlaySquadQuickChatMessage(UObject* Conte
     PlayerState->OnRep_ReplicatedTeamMemberState();
 }
 
+// At global scope (outside any function)
+static void (*BotWorldTickOG)(UWorld*, float) = nullptr;
+
+void BotHookedWorldTick(UWorld* World, float DeltaSeconds)
+{
+    if (BotWorldTickOG)
+        BotWorldTickOG(World, DeltaSeconds);
+
+    UpdateBotMovement();
+}
+
+   // Hook GameMode Tick for bot movement
+static void (*GameModeTickOG)(AFortGameMode*, float) = nullptr;
+void HookedGameModeTick(AFortGameMode* GameMode, float DeltaSeconds)
+{
+    if (GameModeTickOG)
+        GameModeTickOG(GameMode, DeltaSeconds);
+    UpdateBotMovement();
+}
+
+
 void AFortPlayerControllerAthena::PostLoadHook()
 {
+
+
+
+
+    Hooking::Hook(AFortGameMode::GetDefaultObj()->GetFunction("Tick"), HookedGameModeTick, GameModeTickOG);
+
+
     if (VersionInfo.FortniteVersion >= 27)
     {
         CanPlaceBuildableClassInStructuralGrid_ = FindCanPlaceBuildableClassInStructuralGrid();
@@ -3595,6 +3629,8 @@ void AFortPlayerControllerAthena::PostLoadHook()
     //{
     if (VersionInfo.FortniteVersion < 11)
         ServerAttemptAircraftJumpVft = GetDefaultObj()->GetFunction("ServerAttemptAircraftJump")->GetVTableIndex();
+
+
 
     auto ServerAttemptAircraftJumpPC = GetDefaultObj()->GetFunction("ServerAttemptAircraftJump");
     if (!ServerAttemptAircraftJumpPC)

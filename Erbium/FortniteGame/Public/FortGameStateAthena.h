@@ -251,4 +251,5 @@ public:
     DEFINE_FUNC(OnRep_PlayersLeft, void);
     DEFINE_FUNC(OnRep_SafeZoneIndicator, void);
     DEFINE_FUNC(OnRep_MissionManager, void);
+    DEFINE_FUNC(GetPlayerName, FString);
 };

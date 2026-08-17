@@ -215,8 +215,8 @@ void Main()
             terrainOpen = L"open Artemis_Terrain";
         else if (VersionInfo.FortniteVersion >= 11.00)
             terrainOpen = L"open Apollo_Terrain";
-        else if (FConfiguration::bCustomTerrain)
-            terrainOpen = FConfiguration::CustomTerrainPath;
+        else if (FConfiguration::bCustomMap)
+            terrainOpen = FConfiguration::CustomMapPath;
     }
 
     UKismetSystemLibrary::ExecuteConsoleCommand(UWorld::GetWorld(), FString(terrainOpen), nullptr);

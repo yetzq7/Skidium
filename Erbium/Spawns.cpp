@@ -11,6 +11,7 @@
 #include "./FortniteGame/Public/FortLootPackage.h"
 #include "./FortniteGame/Public/FortWeapon.h"
 #include "./FortniteGame/Public/BuildingSMActor.h"
+
 extern uint64_t ApplyCharacterCustomization;
 extern uint64_t NotifyGameMemberAdded_;
 
@@ -20,9 +21,64 @@ public:
     USCRIPTSTRUCT_COMMON_MEMBERS(FCustomCharacterParts);
 };
 
+struct BotMovementData
+{
+    AFortPlayerPawnAthena* Pawn;
+    FVector WanderDirection;
+    float NextWanderChange;
+};
+
+static TArray<BotMovementData> MovingBots;
+
+void UpdateBotMovement()
+{
+    UWorld* World = UWorld::GetWorld();
+    if (!World)
+        return;
+
+    static float LastUpdateTime = 0.f;
+    float CurrentTime = UGameplayStatics::GetTimeSeconds(World);
+    float DeltaSeconds = CurrentTime - LastUpdateTime;
+    LastUpdateTime = CurrentTime;
+
+    if (DeltaSeconds <= 0.f || DeltaSeconds > 0.1f)
+        DeltaSeconds = 0.016f;                     
+
+    const float MoveSpeed = 150.0f;
+
+    for (int32 i = 0; i < MovingBots.Num(); i++)
+    {
+        auto& Bot = MovingBots[i];
+
+        if (!Bot.Pawn || !Bot.Pawn->Controller)
+        {
+            MovingBots.Remove(i);
+            i--;
+            continue;
+        }
+
+        if (CurrentTime >= Bot.NextWanderChange)
+        {
+            float Angle = ((float)rand() / (float)RAND_MAX) * 2.0f * 3.14159f;
+            Bot.WanderDirection = FVector(cosf(Angle), sinf(Angle), 0.0f);
+            Bot.NextWanderChange = CurrentTime + 3.0f + ((float)rand() / (float)RAND_MAX) * 2.0f;
+        }
+
+        FVector CurrentLocation = Bot.Pawn->K2_GetActorLocation();
+        FVector NewLocation = CurrentLocation + (Bot.WanderDirection * MoveSpeed * DeltaSeconds);
+
+        NewLocation.Z = CurrentLocation.Z;
+
+        Bot.Pawn->K2_SetActorLocation(NewLocation, false, nullptr, true);
+
+        FRotator FaceRot{};
+        FaceRot.Yaw = atan2(Bot.WanderDirection.Y, Bot.WanderDirection.X) * 57.2957795f;
+        Bot.Pawn->K2_SetActorRotation(FaceRot, false);
+    }
+}
+
 static FVector GetRandomSpawnLocation(const FVector& BaseLocation, float Radius = 450.0f)
 {
-    // Using rand() instead of FMath
     float Angle = ((float)rand() / (float)RAND_MAX) * 2.0f * 3.14159265358979f;
     float Distance = ((float)rand() / (float)RAND_MAX) * Radius;
     FVector Offset(cosf(Angle) * Distance, sinf(Angle) * Distance, 0.0f);
@@ -67,9 +123,7 @@ void SpawnBots(AFortPlayerControllerAthena* CallerController, int32 Count, const
             SpawnTransform.Translation = RandomLoc;
         }
 
-   
         AFortPlayerPawnAthena* Pawn = World->SpawnActor<AFortPlayerPawnAthena>(GameMode->DefaultPawnClass, SpawnTransform);
-
         AFortPlayerControllerAthena* NewController = World->SpawnActor<AFortPlayerControllerAthena>(FindObject<UClass>(L"/Game/Athena/Athena_PlayerController.Athena_PlayerController_C"), SpawnTransform);
 
         if (!Pawn || !NewController)
@@ -91,14 +145,13 @@ void SpawnBots(AFortPlayerControllerAthena* CallerController, int32 Count, const
         Pawn->OnRep_PlayerState();
 
         Pawn->SetMaxHealth(100.f);
+        Pawn->SetHealth(100.f);
 
-        
         PlayerState->TeamIndex = AFortGameMode::PickTeam(GameMode, 0, NewController);
         if (PlayerState->HasSquadId())
             PlayerState->SquadId = PlayerState->TeamIndex - 3;
         if (PlayerState->HasbIsABot())
             PlayerState->bIsABot = true;
-
 
         if (GameState->HasGameMemberInfoArray())
         {
@@ -123,7 +176,7 @@ void SpawnBots(AFortPlayerControllerAthena* CallerController, int32 Count, const
             free(Member);
         }
 
-
+        // Grant abilities
         for (auto& AbilitySet : AFortGameMode::AbilitySets)
             PlayerState->AbilitySystemComponent->GiveAbilitySet(AbilitySet);
 
@@ -187,5 +240,12 @@ void SpawnBots(AFortPlayerControllerAthena* CallerController, int32 Count, const
         }
 
         PlayerState->OnRep_PlayerName();
+
+        BotMovementData NewBot;
+        NewBot.Pawn = Pawn;
+        NewBot.WanderDirection = FVector(1, 0, 0);
+        NewBot.NextWanderChange = 0.f;
+        MovingBots.Add(NewBot);
+        printf("[SKIDIUM] Pawn %d spawned\n", i + 1);
     }
 }

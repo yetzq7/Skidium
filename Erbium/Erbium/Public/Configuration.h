@@ -8,6 +8,18 @@ struct FConfiguration
    // static inline auto Playlist = L"/Game/Athena/Playlists/Showdown/Playlist_ShowdownAlt_Duos.Playlist_ShowdownAlt_Duos";
     //static inline auto Playlist = L"/Game/Athena/Playlists/Creative/Playlist_PlaygroundV2.Playlist_PlaygroundV2";
     static inline auto Playlist = L"/Game/Athena/Playlists/Playlist_DefaultSolo.Playlist_DefaultSolo";
+    static inline auto ManualPlaylist = false;
+
+    // only one can be on
+    static inline auto bDefaultSolo = false;
+    static inline auto bDefaultDuo = false;
+    static inline auto bDefaultSquad = false;
+    static inline auto bArenaSolo = true;
+    static inline auto bArenaDuo = false;
+    static inline auto bArenaTrio = false;
+    static inline auto bTournamentSolo = false;
+    static inline auto bTournamentDuo = false;
+    static inline auto bTournamentTrio = false;
 
     static inline auto MaxTickRate = 120;
 
@@ -16,27 +28,24 @@ struct FConfiguration
     static inline auto bLateGameLongZone = false; 
 
     // Creative Stuff
-    // check Game/Content/Playgrounds/Items/Plots/ for more plots
-    // can also be your own!
     static inline auto CreativeTerrain = L"/Game/Playgrounds/Items/Plots/Tropical_Medium.Tropical_Medium";
-    
+    // check Game/Content/Playgrounds/Items/Plots/for more plot names (path may be diff on 19.00+ idk i think)
 
-    static inline auto bCustomTerrain = false; // if u have a custom map with its paks inserted and correct terrain path
-    static inline auto CustomTerrainPath = L"open /Game/Path/Goes/Here";
+
+    static inline auto bCustomMap = false; // if u have a custom map/terrain with its paks inserted and correct terrain path
+    static inline auto CustomMapPath = L"open /Game/Path/Goes/Here";
+
 
     // gaycoded / they have no brain & cosmetics
-    static inline auto bEnablePawnSpawns = false;
+    static inline auto bEnablePawnSpawns = true;
     static inline auto PawnAmount = 10; // amount of pawns or "bots" to spawn
     static inline auto PawnName = "projectboss"; // will be switched to a list if i ever give them a brain
+
 
     static inline auto bEnableAPI = false;
     static inline auto MatchmakerURL = "127.0.0.1:PORT/endpoint";
     // Example: For phoenix mm the default is port 1111 and it get from /started so it would be 127.0.0.1:1111/started unless you change the port or endpoint
     
-    // Reviving (Ill commit it again when its fixed)
-    // dosent do nth for now
-    // static inline auto bRevives = 3; 
-    // 3 = trios, 2 = duos, 4 = squads, 0 = off
 
     static inline auto bEnableCheats = false;
     static inline auto SiphonAmount = 50; // set to 0 to disable

@@ -1818,7 +1818,49 @@ void AFortGameMode::FinishWorldInitialization(AFortGameMode* _this, AActor* Worl
         }
     };
 
-    auto Playlist = FindObject<UFortPlaylistAthena>(FConfiguration::Playlist);
+   const UFortPlaylistAthena* Playlist = nullptr;
+
+    if (FConfiguration::bArenaSolo)
+    {
+        Playlist = FindObject<UFortPlaylistAthena>(L"/Game/Athena/Playlists/Showdown/Playlist_ShowdownAlt_Solo.Playlist_ShowdownAlt_Solo");
+    }
+    if (FConfiguration::bArenaDuo)
+    {
+        Playlist = FindObject<UFortPlaylistAthena>(L"/Game/Athena/Playlists/Showdown/Playlist_ShowdownAlt_Duos.Playlist_ShowdownAlt_Duos");
+    }
+    if (FConfiguration::bArenaTrio)
+    {
+        Playlist = FindObject<UFortPlaylistAthena>(L"/Game/Athena/Playlists/Showdown/Playlist_ShowdownAlt_Trios.Playlist_ShowdownAlt_Trios");
+    }
+    else if (FConfiguration::bTournamentSolo)
+    {
+        Playlist = FindObject<UFortPlaylistAthena>(L"/Game/Athena/Playlists/Showdown/Playlist_ShowdownTournament_Solo.Playlist_ShowdownTournament_Solo");
+    }
+    else if (FConfiguration::bTournamentDuo)
+    {
+        Playlist = FindObject<UFortPlaylistAthena>(L"/Game/Athena/Playlists/Showdown/Playlist_ShowdownTournament_Duos.Playlist_ShowdownTournament_Duos");
+    }
+    else if (FConfiguration::bTournamentTrio)
+    {
+        Playlist = FindObject<UFortPlaylistAthena>(L"/Game/Athena/Playlists/Showdown/Playlist_ShowdownTournament_Trios.Playlist_ShowdownTournament_Trios");
+    }
+    else if (FConfiguration::bDefaultSolo)
+    {
+        Playlist = FindObject<UFortPlaylistAthena>(L"/Game/Athena/Playlists/Playlist_DefaultSolo.Playlist_DefaultSolo");
+    }
+    else if (FConfiguration::bDefaultDuo)
+    {
+        Playlist = FindObject<UFortPlaylistAthena>(L"/Game/Athena/Playlists/Playlist_DefaultDuos.Playlist_DefaultDuos");
+    }
+    else if (FConfiguration::bDefaultSquad)
+    {
+        Playlist = FindObject<UFortPlaylistAthena>(L"/Game/Athena/Playlists/Playlist_DefaultSquad.Playlist_DefaultSquad");
+    }
+    else if (FConfiguration::ManualPlaylist)
+    {
+        Playlist = FindObject<UFortPlaylistAthena>(FConfiguration::Playlist);
+    }
+
 
     if (!Playlist)
         Playlist = FindObject<UFortPlaylistAthena>(L"/Game/Athena/Playlists/Playlist_DefaultSolo.Playlist_DefaultSolo");
